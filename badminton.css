@@ -1,0 +1,121 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #e3f2fd, #ffffff);
+  margin: 0;
+  padding: 24px;
+  color: #333;
+}
+
+h2 {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.filter-wrapper {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.filter-wrapper label {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-right: 8px;
+  color: #2c3e50;
+}
+
+.filter-wrapper select {
+  padding: 10px 16px;
+  font-size: 1rem;
+  border: 2px solid #27ae60;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #2c3e50;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%232c3e50' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.filter-wrapper select:hover,
+.filter-wrapper select:focus {
+  border-color: #2ecc71;
+  box-shadow: 0 0 6px rgba(39, 174, 96, 0.3);
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  padding: 20px 18px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-top: 5px solid #27ae60;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  margin-top: 0;
+  color: #27ae60;
+  font-size: 1.3rem;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card h3::before {
+  content: "🏸";
+  font-size: 1.2rem;
+}
+
+.card p {
+  margin: 5px 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.card p strong {
+  color: #e67e22;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 16px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .card {
+    padding: 16px 14px;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+  }
+}
