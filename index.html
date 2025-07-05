@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách đơn hàng</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f6f8;
+      margin: 40px;
+    }
+
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #1ccfcf;
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      margin: 6px 0;
+      color: #333;
+      font-size: 0.95rem;
+    }
+
+    .card .status {
+      margin-top: 8px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .btn-edit {
+      background-color: #ffcd39;
+      color: #000;
+    }
+
+    .btn-delete {
+      background-color: #e74c3c;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <h2 style="text-align:center; margin-bottom: 30px;">Danh sách đơn hàng</h2>
+
+  <div class="card-container">
+    <!-- Card 1 -->
+    <div class="card">
+      <h3>Đơn hàng #001</h3>
+      <p><strong>Khách hàng:</strong> Nguyễn Văn A</p>
+      <p><strong>Email:</strong> a.nguyen@gmail.com</p>
+      <p><strong>Điện thoại:</strong> 0901234567</p>
+      <p class="status">Trạng thái: <span style="color: green;">Đã giao</span></p>
+      <div class="card-actions">
+        <button class="btn btn-edit">Sửa</button>
+        <button class="btn btn-delete">Xóa</button>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card">
+      <h3>Đơn hàng #002</h3>
+      <p><strong>Khách hàng:</strong> Trần Thị B</p>
+      <p><strong>Email:</strong> b.tran@yahoo.com</p>
+      <p><strong>Điện thoại:</strong> 0912345678</p>
+      <p class="status">Trạng thái: <span style="color: orange;">Đang xử lý</span></p>
+      <div class="card-actions">
+        <button class="btn btn-edit">Sửa</button>
+        <button class="btn btn-delete">Xóa</button>
+      </div>
+    </div>
+
+    <!-- Thêm các card khác -->
+  </div>
+
+</body>
+</html>
