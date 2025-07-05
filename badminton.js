@@ -8,6 +8,14 @@ const toggleTheme = document.getElementById("toggleTheme");
 const qrPopup = document.getElementById("qrPopup");
 const accountPopup = document.getElementById("accountPopup");
 const copyMsg = document.getElementById("copyMsg");
+const historyPopup = document.getElementById("historyPopup");
+const closeHistoryBtn = document.getElementById("closeHistoryBtn");
+const historyContent = document.getElementById("historyContent");
+const showAccountBtn = document.getElementById("showAccountBtn");
+const closeAccountBtn = document.getElementById("closeAccountBtn");
+const copyAccountBtn = document.getElementById("copyAccountBtn");
+const showQrBtn = document.getElementById("showQrBtn");
+const closeQrBtn = document.getElementById("closeQrBtn");
 
 // Chế độ tối toàn trang
 
@@ -32,7 +40,16 @@ async function loadData() {
         total += parseFloat(amount);
         summary[name] = (summary[name] || 0) + parseFloat(amount);
       }
-    html += `<hr><p class="total"><strong>Tổng:</strong> ${total.toFixed(1)}k</p>`;
+html += `
+  <hr>
+  <div class="card-footer">
+    <p class="total"><strong>Tổng:</strong> ${total.toFixed(1)}k</p>
+    <button class="edit-history-btn" data-date="${entry.date}">
+      🕒 Lịch sử sửa
+    </button>
+  </div>
+`;
+
 
       card.innerHTML = html;
       cardContainer.appendChild(card);
@@ -86,16 +103,13 @@ filterSelect.addEventListener("change", () => {
 });
 
 // QR Popup
-const showQrBtn = document.getElementById("showQrBtn");
-const closeQrBtn = document.getElementById("closeQrBtn");
+
 
 showQrBtn.onclick = () => qrPopup.style.display = "flex";
 closeQrBtn.onclick = () => qrPopup.style.display = "none";
 
 // Account popup
-const showAccountBtn = document.getElementById("showAccountBtn");
-const closeAccountBtn = document.getElementById("closeAccountBtn");
-const copyAccountBtn = document.getElementById("copyAccountBtn");
+
 
 showAccountBtn.onclick = () => accountPopup.style.display = "flex";
 closeAccountBtn.onclick = () => accountPopup.style.display = "none";
@@ -114,3 +128,39 @@ window.onclick = (e) => {
     copyMsg.style.display = "none";
   }
 };
+
+
+document.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("edit-history-btn")) {
+    const date = e.target.dataset.date;
+    const res = await fetch("history.json");
+    const history = await res.json();
+
+    const filtered = history
+      .filter(h => h.date === date)
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // Sắp xếp mới nhất trước
+
+    if (filtered.length === 0) {
+      historyContent.innerHTML = "<p>Không có thay đổi nào cho ngày này.</p>";
+    } else {
+      historyContent.innerHTML = filtered.map(h => `
+        <p><strong>${h.player}:</strong> từ <em>${h.oldValue}</em> ➝ <em>${h.newValue}</em><br>
+        <span style="font-size: 0.85rem; color: gray;">${new Date(h.timestamp).toLocaleString('vi-VN')}</span>
+        </p>
+      `).join("");
+    }
+
+    historyPopup.style.display = "flex";
+  }
+});
+
+
+closeHistoryBtn.onclick = () => {
+  historyPopup.style.display = "none";
+};
+
+window.addEventListener("click", (e) => {
+  if (e.target === historyPopup) {
+    historyPopup.style.display = "none";
+  }
+});

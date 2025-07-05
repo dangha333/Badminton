@@ -1,0 +1,2 @@
+Các lệnh cần chạy trước khi hoạt động
+nodemon --watch data.json trackChanges.js

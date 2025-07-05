@@ -219,3 +219,57 @@ h2 {
   color: #2c3e50;
   margin-top: 10px;
 }
+.edit-history-btn-wrapper {
+  text-align: right;
+  margin-top: 8px;
+}
+
+.edit-history-btn {
+  background-color: #f39c12;
+  color: #fff;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-history-btn:hover {
+  background-color: #d68910;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  background: #f4f8f6;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.card-footer .total {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.edit-history-btn {
+  background-color: #e67e22;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.edit-history-btn:hover {
+  background-color: #d35400;
+}
