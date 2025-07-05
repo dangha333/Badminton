@@ -1,3 +1,8 @@
+* {
+  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(to right, #e3f2fd, #ffffff);
@@ -8,9 +13,12 @@ body {
 
 h2 {
   text-align: center;
-  color: #2c3e50;
   font-size: 2rem;
   margin-bottom: 16px;
+  background: linear-gradient(to right, #27ae60, #2ecc71);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 .filter-wrapper {
@@ -32,9 +40,6 @@ h2 {
   border-radius: 8px;
   background-color: #ffffff;
   color: #2c3e50;
-  outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  font-family: 'Poppins', sans-serif;
   appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg fill='%232c3e50' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
   background-repeat: no-repeat;
@@ -63,17 +68,16 @@ h2 {
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
   padding: 20px 18px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
   border-top: 5px solid #27ae60;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: scale(1.02);
   box-shadow: 0 12px 26px rgba(0, 0, 0, 0.1);
 }
 
 .card h3 {
-  margin-top: 0;
   color: #27ae60;
   font-size: 1.3rem;
   margin-bottom: 14px;
@@ -93,185 +97,119 @@ h2 {
   color: #444;
 }
 
+.card p::before {
+  content: "👤 ";
+  margin-right: 4px;
+}
+
+.card p:hover {
+  background-color: #f1f8f5;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+
 .card p strong {
   color: #e67e22;
   font-weight: 600;
+}
+
+.qr-section {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.qr-button {
+  margin-top: 16px;
+  padding: 10px 18px;
+  background-color: #27ae60;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(39, 174, 96, 0.2);
+}
+
+.qr-button:hover {
+  background-color: #219150;
+}
+
+.qr-button:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Popup QR và Tài khoản */
+.qr-popup-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.qr-popup-content {
+  position: relative;
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  max-width: 300px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.qr-popup-content img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.qr-popup-content span {
+  display: block;
+  margin-top: 8px;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.qr-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: #999;
+  cursor: pointer;
+}
+
+.qr-close-btn:hover {
+  color: #e74c3c;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 @media (max-width: 480px) {
   body {
     padding: 16px;
   }
-
   h2 {
     font-size: 1.5rem;
   }
-
   .card {
     padding: 16px 14px;
   }
-
   .card h3 {
     font-size: 1.1rem;
   }
-
   .card p {
     font-size: 0.9rem;
   }
 }
- .qr-section {
-      text-align: center;
-      margin-top: 32px;
-    }
-
-    .qr-preview {
-      margin-top: 16px;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .qr-preview img {
-      max-width: 200px;
-      border: 2px solid #27ae60;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .qr-preview span {
-      margin-top: 8px;
-      color: #555;
-      font-size: 0.9rem;
-    }
-
-    .qr-buttons {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .qr-buttons input[type="file"] {
-      display: none;
-    }
-
-    .qr-buttons label, .qr-buttons button {
-      padding: 10px 18px;
-      background-color: #27ae60;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: background-color 0.3s ease;
-    }
-
-    .qr-buttons label:hover, .qr-buttons button:hover {
-      background-color: #219150;
-    }
-      .qr-section {
-      text-align: center;
-      margin-top: 24px;
-    }
-
-    .qr-button {
-      padding: 10px 18px;
-      background-color: #27ae60;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: background-color 0.3s ease;
-    }
-
-    .qr-button:hover {
-      background-color: #219150;
-    }
-
-    .qr-preview {
-      margin-top: 16px;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .qr-preview img {
-      max-width: 200px;
-      border: 2px solid #27ae60;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .qr-preview span {
-      margin-top: 8px;
-      color: #555;
-      font-size: 0.9rem;
-    }
-      .qr-button {
-      margin-top: 16px;
-      padding: 10px 18px;
-      background-color: #27ae60;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: background-color 0.3s ease;
-    }
-
-    .qr-button:hover {
-      background-color: #219150;
-    }
-
-    /* Popup QR */
-    .qr-popup-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.5);
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-
-    .qr-popup-content {
-      position: relative;
-      background: white;
-      padding: 24px;
-      border-radius: 12px;
-      max-width: 300px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-      text-align: center;
-    }
-
-    .qr-popup-content img {
-      max-width: 100%;
-      border-radius: 8px;
-    }
-
-    .qr-popup-content span {
-      display: block;
-      margin-top: 8px;
-      color: #555;
-      font-size: 0.9rem;
-    }
-
-    .qr-close-btn {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      background: none;
-      border: none;
-      font-size: 1.4rem;
-      color: #999;
-      cursor: pointer;
-    }
-
-    .qr-close-btn:hover {
-      color: #e74c3c;
-    }
