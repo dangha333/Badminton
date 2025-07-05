@@ -6,11 +6,80 @@
   <title>Tiền cầu lông</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="badminton.css">
+  <style>
+    /* Nút QR */
+    .qr-button {
+      margin-top: 16px;
+      padding: 10px 18px;
+      background-color: #27ae60;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .qr-button:hover {
+      background-color: #219150;
+    }
+
+    /* Popup QR */
+    .qr-popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .qr-popup-content {
+      position: relative;
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      max-width: 300px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    .qr-popup-content img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .qr-popup-content span {
+      display: block;
+      margin-top: 8px;
+      color: #555;
+      font-size: 0.9rem;
+    }
+
+    .qr-close-btn {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: #999;
+      cursor: pointer;
+    }
+
+    .qr-close-btn:hover {
+      color: #e74c3c;
+    }
+  </style>
 </head>
 <body>
 
   <h2>🏸 Tiền cầu lông tháng 07</h2>
 
+  <!-- Bộ lọc + QR -->
   <div class="filter-wrapper">
     <label for="filter">Lọc theo ngày: </label>
     <select id="filter">
@@ -22,10 +91,17 @@
       <option value="28/06">28/06</option>
       <option value="05/07">05/07</option>
     </select>
+
+    <!-- Nút hiện QR -->
+    <div class="qr-section">
+      <button class="qr-button" id="showQrBtn">📷 Mã QR</button>
+    </div>
   </div>
 
+  <!-- Danh sách card -->
   <div class="card-container">
-    <div class="card" data-date="07/06">
+    <!-- ... giữ nguyên các card ... -->
+  <div class="card" data-date="07/06">
       <h3>Ngày 07/06</h3>
       <p><strong>Duy Mạnh:</strong> 7k</p>
       <p><strong>Mạnh Đức:</strong> 6k</p>
@@ -75,8 +151,19 @@
       <p><strong>Tuấn Hưng:</strong> 7,5k</p>
       <p><strong>Minh Quang:</strong> 9,5k</p>
     </div>
+    <!-- ... Các card khác ... -->
   </div>
 
+  <!-- Popup QR -->
+  <div class="qr-popup-overlay" id="qrPopup">
+    <div class="qr-popup-content">
+      <button class="qr-close-btn" id="closeQrBtn">✖</button>
+      <img src="img/Qr.jpg" alt="Mã QR">
+      <span>Mã QR của bạn</span>
+    </div>
+  </div>
+
+  <!-- Script -->
   <script>
     const select = document.getElementById("filter");
     const cards = document.querySelectorAll(".card");
@@ -87,6 +174,26 @@
         const date = card.getAttribute("data-date");
         card.style.display = (value === "all" || date === value) ? "block" : "none";
       });
+    });
+
+    // Hiện popup QR
+    const qrPopup = document.getElementById("qrPopup");
+    const showQrBtn = document.getElementById("showQrBtn");
+    const closeQrBtn = document.getElementById("closeQrBtn");
+
+    showQrBtn.addEventListener("click", () => {
+      qrPopup.style.display = "flex";
+    });
+
+    closeQrBtn.addEventListener("click", () => {
+      qrPopup.style.display = "none";
+    });
+
+    // Đóng khi click ra ngoài popup
+    window.addEventListener("click", (e) => {
+      if (e.target === qrPopup) {
+        qrPopup.style.display = "none";
+      }
     });
   </script>
 
