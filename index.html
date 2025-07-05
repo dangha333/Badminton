@@ -6,57 +6,57 @@
   <title>Tiền cầu lông</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="badminton.css">
-
   <style>
-    /* Nút QR */
-  
+    /* Tùy chỉnh Dark Mode */
+    body.dark {
+      background-color: #1e272e;
+      color: #fff;
+    }
+    body.dark .card {
+      background-color: #2f3640;
+      color: #fff;
+    }
+    .avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
   </style>
 </head>
-
 <body>
-
   <h2>🏸 Tiền cầu lông tháng</h2>
 
-  <!-- Bộ lọc + QR -->
   <div class="filter-wrapper">
     <label for="filter">Lọc theo ngày: </label>
     <select id="filter">
       <option value="all">Tất cả</option>
-      <option value="07/06">07/06</option>
-      <option value="14/06">14/06</option>
-      <option value="15/06">15/06</option>
-      <option value="21/06">21/06</option>
-      <option value="28/06">28/06</option>
-      <option value="05/07">05/07</option>
     </select>
 
-    <!-- Nút hiện QR -->
-   <div class="qr-section">
+    <div class="qr-section">
       <button class="qr-button" id="showQrBtn">📷 Mã QR</button>
-      <button class="qr-button" id="showAccountBtn" style="margin-left:10px;">💳 Số tài khoản</button>
+      <button class="qr-button" id="showAccountBtn">💳 Số tài khoản</button>
+     
     </div>
-
   </div>
-    <div class="qr-popup-overlay" id="accountPopup">
+
+  <div class="qr-popup-overlay" id="accountPopup">
     <div class="qr-popup-content">
       <button class="qr-close-btn" id="closeAccountBtn">✖</button>
       <h3>Thông tin chuyển khoản</h3>
-      <p><strong>STK:</strong> <span id="accountNumber"></span>0123413072005</p>
+      <p><strong>STK:</strong> <span id="accountNumber">0123413072005</span></p>
       <p><strong>Ngân hàng:</strong> MBBank</p>
       <p><strong>Chủ tài khoản:</strong> Đặng Thanh Hà</p>
-      <button class="qr-button" id="copyAccountBtn" style="margin-top:10px;">📋 Sao chép STK</button>
+      <button class="qr-button" id="copyAccountBtn">📋 Sao chép STK</button>
       <span id="copyMsg" style="display:none;color:green;font-size:0.95rem;">Đã sao chép!</span>
     </div>
   </div>
 
-  <!-- Danh sách card -->
-  <div class="card-container">
-    <!-- ... giữ nguyên các card ... -->
+  <div class="card-container" id="cardContainer"></div>
 
-    <!-- ... Các card khác ... -->
-  </div>
 
-  <!-- Popup QR -->
+
   <div class="qr-popup-overlay" id="qrPopup">
     <div class="qr-popup-content">
       <button class="qr-close-btn" id="closeQrBtn">✖</button>
@@ -65,8 +65,7 @@
     </div>
   </div>
 
-  <!-- Script -->
- 
  <script src="badminton.js"></script>
+
 </body>
 </html>

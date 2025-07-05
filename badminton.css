@@ -97,7 +97,8 @@ h2 {
   color: #444;
 }
 
-.card p::before {
+/* Chỉ áp dụng icon 👤 cho các dòng KHÔNG phải dòng tổng */
+.card p:not(.total)::before {
   content: "👤 ";
   margin-right: 4px;
 }
@@ -141,7 +142,6 @@ h2 {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* Popup QR và Tài khoản */
 .qr-popup-overlay {
   display: none;
   position: fixed;
@@ -212,4 +212,10 @@ h2 {
   .card p {
     font-size: 0.9rem;
   }
+}
+.card p.total {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-top: 10px;
 }
