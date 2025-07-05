@@ -93,8 +93,21 @@
     </select>
 
     <!-- Nút hiện QR -->
-    <div class="qr-section">
+   <div class="qr-section">
       <button class="qr-button" id="showQrBtn">📷 Mã QR</button>
+      <button class="qr-button" id="showAccountBtn" style="margin-left:10px;">💳 Số tài khoản</button>
+    </div>
+
+  </div>
+    <div class="qr-popup-overlay" id="accountPopup">
+    <div class="qr-popup-content">
+      <button class="qr-close-btn" id="closeAccountBtn">✖</button>
+      <h3>Thông tin chuyển khoản</h3>
+      <p><strong>STK:</strong> <span id="accountNumber"></span>0123413072005</p>
+      <p><strong>Ngân hàng:</strong> MBBank</p>
+      <p><strong>Chủ tài khoản:</strong> Đặng Thanh Hà</p>
+      <button class="qr-button" id="copyAccountBtn" style="margin-top:10px;">📋 Sao chép STK</button>
+      <span id="copyMsg" style="display:none;color:green;font-size:0.95rem;">Đã sao chép!</span>
     </div>
   </div>
 
@@ -147,7 +160,7 @@
       <h3>Ngày 05/07</h3>
       <p><strong>Duy Mạnh:</strong> 49k</p>
       <p><strong>Mạnh Đức:</strong> 25k</p>
-      <p><strong>Minh Đức:</strong> 21k</p>
+      <p><strong>Minh Đức:</strong> 31k</p>
       <p><strong>Tuấn Hưng:</strong> 7,5k</p>
       <p><strong>Minh Quang:</strong> 9,5k</p>
     </div>
@@ -195,6 +208,62 @@
         qrPopup.style.display = "none";
       }
     });
+
+    const accountPopup = document.getElementById("accountPopup");
+    const showAccountBtn = document.getElementById("showAccountBtn");
+    const closeAccountBtn = document.getElementById("closeAccountBtn");
+    const copyAccountBtn = document.getElementById("copyAccountBtn");
+    const copyMsg = document.getElementById("copyMsg");
+
+    showAccountBtn.addEventListener("click", () => {
+      accountPopup.style.display = "flex";
+    });
+
+    closeAccountBtn.addEventListener("click", () => {
+      accountPopup.style.display = "none";
+      copyMsg.style.display = "none";
+    });
+
+    // Đóng khi click ra ngoài popup
+    window.addEventListener("click", (e) => {
+      if (e.target === qrPopup) {
+        qrPopup.style.display = "none";
+      }
+      if (e.target === accountPopup) {
+        accountPopup.style.display = "none";
+        copyMsg.style.display = "none";
+      }
+    });
+
+    copyAccountBtn.addEventListener("click", () => {
+      const accountNumber = document.getElementById("accountNumber").innerText;
+      navigator.clipboard.writeText(accountNumber);
+      copyMsg.style.display = "block";
+      setTimeout(() => copyMsg.style.display = "none", 1500);
+    });
+
+    // SẮP XẾP CÁC CARD THEO NGÀY GIẢM DẦN
+(function sortCardsByDate() {
+  const container = document.querySelector('.card-container');
+  const cards = Array.from(container.querySelectorAll('.card'));
+
+  // Hàm chuyển "dd/mm" thành đối tượng Date (năm hiện tại)
+  function parseDate(str) {
+    const [day, month] = str.split('/').map(Number);
+    const year = new Date().getFullYear();
+    return new Date(year, month - 1, day);
+  }
+
+  // Sắp xếp giảm dần theo ngày
+  cards.sort((a, b) => {
+    const dateA = parseDate(a.getAttribute('data-date'));
+    const dateB = parseDate(b.getAttribute('data-date'));
+    return dateB - dateA;
+  });
+
+  // Gắn lại các card vào container theo thứ tự mới
+  cards.forEach(card => container.appendChild(card));
+})();
   </script>
 
 </body>
