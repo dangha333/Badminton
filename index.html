@@ -6,78 +6,16 @@
   <title>Tiền cầu lông</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="badminton.css">
+
   <style>
     /* Nút QR */
-    .qr-button {
-      margin-top: 16px;
-      padding: 10px 18px;
-      background-color: #27ae60;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: background-color 0.3s ease;
-    }
-
-    .qr-button:hover {
-      background-color: #219150;
-    }
-
-    /* Popup QR */
-    .qr-popup-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.5);
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-
-    .qr-popup-content {
-      position: relative;
-      background: white;
-      padding: 24px;
-      border-radius: 12px;
-      max-width: 300px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-      text-align: center;
-    }
-
-    .qr-popup-content img {
-      max-width: 100%;
-      border-radius: 8px;
-    }
-
-    .qr-popup-content span {
-      display: block;
-      margin-top: 8px;
-      color: #555;
-      font-size: 0.9rem;
-    }
-
-    .qr-close-btn {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      background: none;
-      border: none;
-      font-size: 1.4rem;
-      color: #999;
-      cursor: pointer;
-    }
-
-    .qr-close-btn:hover {
-      color: #e74c3c;
-    }
+  
   </style>
 </head>
+
 <body>
 
-  <h2>🏸 Tiền cầu lông tháng 07</h2>
+  <h2>🏸 Tiền cầu lông tháng</h2>
 
   <!-- Bộ lọc + QR -->
   <div class="filter-wrapper">
@@ -114,56 +52,7 @@
   <!-- Danh sách card -->
   <div class="card-container">
     <!-- ... giữ nguyên các card ... -->
-  <div class="card" data-date="07/06">
-      <h3>Ngày 07/06</h3>
-      <p><strong>Duy Mạnh:</strong> 7k</p>
-      <p><strong>Mạnh Đức:</strong> 6k</p>
-      <p><strong>Minh Đức:</strong> 13k</p>
-    </div>
 
-    <div class="card" data-date="14/06">
-      <h3>Ngày 14/06</h3>
-      <p><strong>Duy Mạnh:</strong> 8,5k</p>
-      <p><strong>Mạnh Đức:</strong> 7,5k</p>
-      <p><strong>Minh Đức:</strong> 13k</p>
-      <p><strong>Tuấn Hưng:</strong> 1,5k</p>
-    </div>
-
-    <div class="card" data-date="15/06">
-      <h3>Ngày 15/06</h3>
-      <p><strong>Duy Mạnh:</strong> 15k</p>
-      <p><strong>Mạnh Đức:</strong> 14k</p>
-      <p><strong>Minh Đức:</strong> 13k</p>
-      <p><strong>Tuấn Hưng:</strong> 1,5k</p>
-      <p><strong>Minh Quang:</strong> 6,5k</p>
-    </div>
-
-    <div class="card" data-date="21/06">
-      <h3>Ngày 21/06</h3>
-      <p><strong>Duy Mạnh:</strong> 18k</p>
-      <p><strong>Mạnh Đức:</strong> 17k</p>
-      <p><strong>Minh Đức:</strong> 13k</p>
-      <p><strong>Tuấn Hưng:</strong> 4,5k</p>
-      <p><strong>Minh Quang:</strong> 9,5k</p>
-    </div>
-
-    <div class="card" data-date="28/06">
-      <h3>Ngày 28/06</h3>
-      <p><strong>Duy Mạnh:</strong> 25k</p>
-      <p><strong>Mạnh Đức:</strong> 21k</p>
-      <p><strong>Minh Đức:</strong> 17k</p>
-      <p><strong>Tuấn Hưng:</strong> 7,5k</p>
-      <p><strong>Minh Quang:</strong> 9,5k</p>
-    </div>
-
-    <div class="card" data-date="05/07">
-      <h3>Ngày 05/07</h3>
-      <p><strong>Duy Mạnh:</strong> 49k</p>
-      <p><strong>Mạnh Đức:</strong> 25k</p>
-      <p><strong>Minh Đức:</strong> 31k</p>
-      <p><strong>Tuấn Hưng:</strong> 7,5k</p>
-      <p><strong>Minh Quang:</strong> 9,5k</p>
-    </div>
     <!-- ... Các card khác ... -->
   </div>
 
@@ -177,94 +66,7 @@
   </div>
 
   <!-- Script -->
-  <script>
-    const select = document.getElementById("filter");
-    const cards = document.querySelectorAll(".card");
-
-    select.addEventListener("change", () => {
-      const value = select.value;
-      cards.forEach(card => {
-        const date = card.getAttribute("data-date");
-        card.style.display = (value === "all" || date === value) ? "block" : "none";
-      });
-    });
-
-    // Hiện popup QR
-    const qrPopup = document.getElementById("qrPopup");
-    const showQrBtn = document.getElementById("showQrBtn");
-    const closeQrBtn = document.getElementById("closeQrBtn");
-
-    showQrBtn.addEventListener("click", () => {
-      qrPopup.style.display = "flex";
-    });
-
-    closeQrBtn.addEventListener("click", () => {
-      qrPopup.style.display = "none";
-    });
-
-    // Đóng khi click ra ngoài popup
-    window.addEventListener("click", (e) => {
-      if (e.target === qrPopup) {
-        qrPopup.style.display = "none";
-      }
-    });
-
-    const accountPopup = document.getElementById("accountPopup");
-    const showAccountBtn = document.getElementById("showAccountBtn");
-    const closeAccountBtn = document.getElementById("closeAccountBtn");
-    const copyAccountBtn = document.getElementById("copyAccountBtn");
-    const copyMsg = document.getElementById("copyMsg");
-
-    showAccountBtn.addEventListener("click", () => {
-      accountPopup.style.display = "flex";
-    });
-
-    closeAccountBtn.addEventListener("click", () => {
-      accountPopup.style.display = "none";
-      copyMsg.style.display = "none";
-    });
-
-    // Đóng khi click ra ngoài popup
-    window.addEventListener("click", (e) => {
-      if (e.target === qrPopup) {
-        qrPopup.style.display = "none";
-      }
-      if (e.target === accountPopup) {
-        accountPopup.style.display = "none";
-        copyMsg.style.display = "none";
-      }
-    });
-
-    copyAccountBtn.addEventListener("click", () => {
-      const accountNumber = document.getElementById("accountNumber").innerText;
-      navigator.clipboard.writeText(accountNumber);
-      copyMsg.style.display = "block";
-      setTimeout(() => copyMsg.style.display = "none", 1500);
-    });
-
-    // SẮP XẾP CÁC CARD THEO NGÀY GIẢM DẦN
-(function sortCardsByDate() {
-  const container = document.querySelector('.card-container');
-  const cards = Array.from(container.querySelectorAll('.card'));
-
-  // Hàm chuyển "dd/mm" thành đối tượng Date (năm hiện tại)
-  function parseDate(str) {
-    const [day, month] = str.split('/').map(Number);
-    const year = new Date().getFullYear();
-    return new Date(year, month - 1, day);
-  }
-
-  // Sắp xếp giảm dần theo ngày
-  cards.sort((a, b) => {
-    const dateA = parseDate(a.getAttribute('data-date'));
-    const dateB = parseDate(b.getAttribute('data-date'));
-    return dateB - dateA;
-  });
-
-  // Gắn lại các card vào container theo thứ tự mới
-  cards.forEach(card => container.appendChild(card));
-})();
-  </script>
-
+ 
+ <script src="badminton.js"></script>
 </body>
 </html>

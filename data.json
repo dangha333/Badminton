@@ -1,0 +1,59 @@
+[
+  {
+    "date": "07/06",
+    "players": {
+      "Duy Mạnh": "7k",
+      "Mạnh Đức": "6k",
+      "Minh Đức": "13k"
+    }
+  },
+  {
+    "date": "14/06",
+    "players": {
+      "Duy Mạnh": "8,5k",
+      "Mạnh Đức": "7,5k",
+      "Minh Đức": "13k",
+      "Tuấn Hưng": "1,5k"
+    }
+  },
+  {
+    "date": "15/06",
+    "players": {
+      "Duy Mạnh": "15k",
+      "Mạnh Đức": "14k",
+      "Minh Đức": "13k",
+      "Tuấn Hưng": "1,5k",
+      "Minh Quang": "6,5k"
+    }
+  },
+  {
+    "date": "21/06",
+    "players": {
+      "Duy Mạnh": "18k",
+      "Mạnh Đức": "17k",
+      "Minh Đức": "13k",
+      "Tuấn Hưng": "4,5k",
+      "Minh Quang": "9,5k"
+    }
+  },
+  {
+    "date": "28/06",
+    "players": {
+      "Duy Mạnh": "25k",
+      "Mạnh Đức": "21k",
+      "Minh Đức": "17k",
+      "Tuấn Hưng": "7,5k",
+      "Minh Quang": "9,5k"
+    }
+  },
+  {
+    "date": "05/07",
+    "players": {
+      "Duy Mạnh": "49k",
+      "Mạnh Đức": "25k",
+      "Minh Đức": "31k",
+      "Tuấn Hưng": "7,5k",
+      "Minh Quang": "9,5k"
+    }
+  }
+]
