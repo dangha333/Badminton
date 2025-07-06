@@ -26,14 +26,9 @@ function openMomo() {
 
 }
 
-function openMBBankApp() {
-  // Gọi deeplink app MBBank
-  window.location.href = "https://dl.vietqr.io/pay?app=mb&bank=970422&account=0123456789&amount=500000&addInfo=THANH+TOAN+DON+HANG&template=compact
-";
 
-  // Phòng trường hợp không mở được
-  
-}
+
+  // Phòng trường hợp không mở đượ
 
 
 async function loadData() {
