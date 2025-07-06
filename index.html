@@ -26,13 +26,19 @@
       <button class="qr-button" id="showQrBtn">📷 Mã QR</button>
       <button class="qr-button" id="showAccountBtn">💳 Số tài khoản</button>
      
-    </div>
-<button onclick="window.location.href='momo://?action=transfer&receiver=0123456789&amount=100000&comment=Tien%20cau%20long'" class="qr-button">
-  💸 Chuyển tiền qua MoMo
+      <button class="qr-button" onclick="window.location.href='momo://?action=transfer&receiver=0123456789&amount=100000&comment=Tien%20cau%20long'" >
+  <img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" alt="MoMo" style="height: 20px;">
+  Chuyển tiền qua MoMo
 </button>
-<a href="https://dl.vietqr.io/pay?app=mb&bank=970422&account=0123413072005&amount=500000&addInfo=Tien+cau+long" target="_blank">
-  <img src="https://img.vietqr.io/image/970422-0123413072005-compact2.png?amount=500000&addInfo=Tien%20cau%20long&accountName=Dang%20Thanh%20Ha" alt="QR chuyển tiền" style="max-width: 300px;">
-</a>
+<button class="qr-button" onclick="openMBBankApp()" >
+  <img src="https://is2-ssl.mzstatic.com/image/thumb/Purple122/v4/f4/0a/b6/f40ab6a2-e67d-e267-9c46-ae03dfa238a9/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/1200x630wa.png" alt="MBBank" style="height: 20px;">
+  Mở app MBBank
+</button>
+    </div>
+<!-- Nút chuyển tiền qua MoMo với logo -->
+
+
+<!-- Nút mở app MBBank với logo -->
 
 
 

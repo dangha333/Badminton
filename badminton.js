@@ -26,9 +26,13 @@ function openMomo() {
 
 }
 
+function openMBBankApp() {
+  // Gọi deeplink app MBBank
+  window.location.href = "https://dl.vietqr.io/pay?app=mb";
 
-
-  // Phòng trường hợp không mở đượ
+  // Phòng trường hợp không mở được
+  
+}
 
 
 async function loadData() {
