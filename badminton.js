@@ -18,18 +18,15 @@ const showQrBtn = document.getElementById("showQrBtn");
 const closeQrBtn = document.getElementById("closeQrBtn");
 
 // Chế độ tối toàn trang
-const payLink = "https://img.vietqr.io/image/970422-0123413072005-compact2.png?amount=0&addInfo=Chuyen%20tien%20cau%20long";
-window.open(payLink, "_blank");
-const payNowBtn = document.getElementById("payNowBtn");
 
-payNowBtn.onclick = () => {
-  // Đường dẫn thanh toán bằng VietQR
-  const payLink = "https://img.vietqr.io/image/970422-0123413072005-compact2.png?amount=0&addInfo=Tien%20cau%20long";
-  
-  // Mở trong tab mới
-  window.open(payLink, "_blank");
-};
+function openMomo() {
+  const url = "momo://?action=transfer&receiver=0123456789&amount=100000&comment=Chuyen tien cau long";
+  window.location.href = url;
 
+  setTimeout(() => {
+    alert("Nếu không thấy mở app MoMo, hãy kiểm tra lại hoặc mở thủ công.");
+  }, 2000);
+}
 
 async function loadData() {
   try {
