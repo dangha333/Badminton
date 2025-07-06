@@ -23,19 +23,16 @@ function openMomo() {
   const url = "momo://?action=transfer&receiver=0123456789&amount=100000&comment=Chuyen tien cau long";
   window.location.href = url;
 
-  setTimeout(() => {
-    alert("Nếu không thấy mở app MoMo, hãy kiểm tra lại hoặc mở thủ công.");
-  }, 2000);
+
 }
 
 function openMBBankApp() {
   // Gọi deeplink app MBBank
-  window.location.href = "https://dl.vietqr.io/pay?app=mb";
+  window.location.href = "https://dl.vietqr.io/pay?app=mb&bank=970422&account=0123456789&amount=500000&addInfo=THANH+TOAN+DON+HANG&template=compact
+";
 
   // Phòng trường hợp không mở được
-  setTimeout(() => {
-    alert("Nếu ứng dụng MBBank không mở, hãy kiểm tra lại hoặc mở thủ công trên điện thoại.");
-  }, 2000);
+  
 }
 
 
