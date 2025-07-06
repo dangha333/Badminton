@@ -6,24 +6,12 @@
   <title>Tiền cầu lông</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="badminton.css">
-  <style>
-    /* Tùy chỉnh Dark Mode */
-    body.dark {
-      background-color: #1e272e;
-      color: #fff;
-    }
-    body.dark .card {
-      background-color: #2f3640;
-      color: #fff;
-    }
-    .avatar {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      margin-right: 6px;
-      vertical-align: middle;
-    }
-  </style>
+  <audio id="bgMusic" src="sounds/audio.mp3" autoplay loop></audio>
+<!-- Flatpickr Datepicker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
 </head>
 <body>
   <h2>🏸 Tiền cầu lông tháng</h2>
@@ -39,6 +27,15 @@
       <button class="qr-button" id="showAccountBtn">💳 Số tài khoản</button>
      
     </div>
+   <!-- Overlay mở đầu -->
+<div id="startOverlay">
+  <div class="overlay-content">
+  </div>
+</div>
+
+<!-- Nhạc nền -->
+
+
   </div>
 
   <div class="qr-popup-overlay" id="accountPopup">

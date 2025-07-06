@@ -35,11 +35,12 @@ async function loadData() {
 
       let total = 0;
       let html = `<h3>Ngày ${entry.date} (${getWeekday(entry.date)})</h3>`;
-      for (const [name, amount] of Object.entries(entry.players)) {
-        html += `<p><strong>${name}:</strong> ${amount}</p>`;
-        total += parseFloat(amount);
-        summary[name] = (summary[name] || 0) + parseFloat(amount);
-      }
+     for (const [name, amount] of Object.entries(entry.players)) {
+  html += `<p><strong>${name}:</strong> <span class="amount">${amount}</span></p>`;
+  total += parseFloat(amount);
+  summary[name] = (summary[name] || 0) + parseFloat(amount);
+}
+
 html += `
   <hr>
   <div class="card-footer">
@@ -163,4 +164,19 @@ window.addEventListener("click", (e) => {
   if (e.target === historyPopup) {
     historyPopup.style.display = "none";
   }
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const overlay = document.getElementById("startOverlay");
+  const audio = document.getElementById("bgMusic");
+
+  const startSite = () => {
+    audio.play();
+    overlay.style.opacity = "0";
+    setTimeout(() => overlay.remove(), 400); // Xóa overlay sau khi ẩn
+    document.removeEventListener("click", startSite);
+  };
+
+  document.addEventListener("click", startSite);
 });
