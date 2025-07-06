@@ -28,6 +28,17 @@ function openMomo() {
   }, 2000);
 }
 
+function openMBBankApp() {
+  // Gọi deeplink app MBBank
+  window.location.href = "mbbank://";
+
+  // Phòng trường hợp không mở được
+  setTimeout(() => {
+    alert("Nếu ứng dụng MBBank không mở, hãy kiểm tra lại hoặc mở thủ công trên điện thoại.");
+  }, 2000);
+}
+
+
 async function loadData() {
   try {
     const res = await fetch("data.json");
