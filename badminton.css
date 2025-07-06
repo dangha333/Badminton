@@ -5,11 +5,13 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: url('img/back1.jpeg') no-repeat center/cover;
+  background: url('img/back1.jpeg') no-repeat center center fixed;
+  background-size: cover;
   margin: 0;
   padding: 24px;
   color: #ffffff;
 }
+
 
 h2 {
   text-align: center;
@@ -226,6 +228,9 @@ h2 {
 @media (max-width: 480px) {
   body {
     padding: 16px;
+        background: url('img/back3.jpg') no-repeat center center scroll;
+    background-position: center center;
+    background-size: cover;
   }
   h2 {
     font-size: 1.5rem;
