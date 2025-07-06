@@ -30,7 +30,7 @@ function openMomo() {
 
 function openMBBankApp() {
   // Gọi deeplink app MBBank
-  window.location.href = "mbbank://";
+  window.location.href = "https://dl.vietqr.io/pay?app=mb";
 
   // Phòng trường hợp không mở được
   setTimeout(() => {
