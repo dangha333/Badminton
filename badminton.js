@@ -149,24 +149,48 @@ window.onclick = (e) => {
 document.addEventListener("click", async (e) => {
   if (e.target.classList.contains("edit-history-btn")) {
     const date = e.target.dataset.date;
-    const res = await fetch("history.json");
-    const history = await res.json();
-
-    const filtered = history
-      .filter(h => h.date === date)
-      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // Sắp xếp mới nhất trước
-
-    if (filtered.length === 0) {
-      historyContent.innerHTML = "<p>Không có thay đổi nào cho ngày này.</p>";
-    } else {
-      historyContent.innerHTML = filtered.map(h => `
-        <p><strong>${h.player}:</strong> từ <em>${h.oldValue}</em> ➝ <em>${h.newValue}</em><br>
-        <span style="font-size: 0.85rem; color: gray;">${new Date(h.timestamp).toLocaleString('vi-VN')}</span>
-        </p>
-      `).join("");
-    }
-
+    
+    // Show loading state
+    const historyContent = document.getElementById("historyContent");
+    const historyPopup = document.getElementById("historyPopup");
+    
+    historyContent.innerHTML = '<div class="history-loading">Đang tải lịch sử...</div>';
     historyPopup.style.display = "flex";
+    
+    try {
+      const res = await fetch("history.json");
+      const history = await res.json();
+      const filtered = history
+        .filter(h => h.date === date)
+        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      
+      // Add delay for smooth animation
+      setTimeout(() => {
+        if (filtered.length === 0) {
+          historyContent.innerHTML = "<p>Không có thay đổi nào cho ngày này.</p>";
+        } else {
+          historyContent.innerHTML = filtered.map((h, index) => `
+            <p style="animation-delay: ${index * 0.1}s">
+              <strong>${h.player}:</strong> 
+              từ <em>${h.oldValue}</em> ➝ <em>${h.newValue}</em>
+              <span>
+                ${new Date(h.timestamp).toLocaleString('vi-VN', {
+                  year: 'numeric',
+                  month: '2-digit', 
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit'
+                })}
+              </span>
+            </p>
+          `).join("");
+        }
+      }, 500);
+      
+    } catch (error) {
+      historyContent.innerHTML = '<p style="color: #ff6b6b; text-align: center;">❌ Lỗi khi tải lịch sử!</p>';
+    }
   }
 });
 
@@ -195,3 +219,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.addEventListener("click", startSite);
 });
+
