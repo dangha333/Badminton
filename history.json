@@ -33,5 +33,33 @@
     "player": "Duy Mạnh",
     "oldValue": "49k",
     "newValue": "60k"
+  },
+  {
+    "date": "26/07",
+    "timestamp": "2025-08-02T07:17:46.950Z",
+    "player": "Duy Mạnh",
+    "oldValue": "49k",
+    "newValue": "20k"
+  },
+  {
+    "date": "02/08",
+    "timestamp": "2025-08-02T07:18:16.083Z",
+    "player": "Mạnh Đức",
+    "oldValue": "25k",
+    "newValue": "4,5k"
+  },
+  {
+    "date": "02/08",
+    "timestamp": "2025-08-02T07:18:21.133Z",
+    "player": "Minh Đức",
+    "oldValue": "31k",
+    "newValue": "34,5k"
+  },
+  {
+    "date": "02/08",
+    "timestamp": "2025-08-02T07:18:26.303Z",
+    "player": "Minh Quang",
+    "oldValue": "9,5k",
+    "newValue": "13k"
   }
 ]

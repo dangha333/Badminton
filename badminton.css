@@ -5,7 +5,7 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8B5FBF 100%);
+  background: linear-gradient(135deg, #c93333 0%, #186ac9 50%, #15c9cf 100%);
   background-attachment: fixed;
   margin: 0;
   padding: 24px;
@@ -16,51 +16,14 @@ body {
   animation: bodyGlow 8s ease-in-out infinite alternate;
 }
 
-@keyframes bodyGlow {
-  0% { background: linear-gradient(135deg, #667eea 0%, #e76326 50%, #8B5FBF 100%); }
-  50% { background: linear-gradient(135deg, #8B5FBF 0%, #b0d410 50%, #764ba2 100%); }
-  100% { background: linear-gradient(135deg, #764ba2 0%, #e01685 50%, #667eea 100%); }
-}
 
 /* Enhanced animated background particles */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="badminton-pattern" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1.5" fill="rgba(255,255,255,0.15)" opacity="0.6"><animate attributeName="opacity" values="0.1;0.4;0.1" dur="2.5s" repeatCount="indefinite"/><animate attributeName="r" values="1;2;1" dur="3s" repeatCount="indefinite"/></circle><circle cx="10" cy="30" r="1" fill="rgba(0,245,255,0.2)" opacity="0.4"><animate attributeName="opacity" values="0.2;0.6;0.2" dur="4s" repeatCount="indefinite"/></circle></pattern></defs><rect width="100" height="100" fill="url(%23badminton-pattern)"/></svg>') repeat;
-  pointer-events: none;
-  z-index: -1;
-  animation: backgroundMove 25s linear infinite;
-}
 
-@keyframes backgroundMove {
-  0% { transform: translateX(0) translateY(0) rotate(0deg); }
-  100% { transform: translateX(-40px) translateY(-40px) rotate(360deg); }
-}
+
+
 
 /* Floating orbs */
-body::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at 20% 80%, rgba(0,245,255,0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(118,75,162,0.1) 0%, transparent 50%),
-              radial-gradient(circle at 40% 40%, rgba(102,126,234,0.08) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: -1;
-  animation: orbFloat 12s ease-in-out infinite;
-}
 
-@keyframes orbFloat {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.1) rotate(180deg); }
-}
 
 h2 {
   text-align: center;
@@ -86,7 +49,7 @@ h2::before {
   transform: translateY(-50%);
   font-size: 3rem;
   animation: shuttleBounce 2.5s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px rgba(0,245,255,0.5));
+  filter: drop-shadow(0 0 10px rgb(5, 226, 255));
 }
 
 h2::after {
