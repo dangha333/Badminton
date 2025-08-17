@@ -117,5 +117,26 @@
     "player": "Thế Anh",
     "oldValue": "6,5k",
     "newValue": "6,7k"
+  },
+  {
+    "date": "17/08",
+    "timestamp": "2025-08-17T06:18:52.341Z",
+    "player": "Minh Quang",
+    "oldValue": "0k",
+    "newValue": "6k"
+  },
+  {
+    "date": "17/08",
+    "timestamp": "2025-08-17T06:19:01.273Z",
+    "player": "Minh Đức",
+    "oldValue": "17,7k",
+    "newValue": "23,7k"
+  },
+  {
+    "date": "17/08",
+    "timestamp": "2025-08-17T06:19:08.613Z",
+    "player": "Duy Mạnh",
+    "oldValue": "20k",
+    "newValue": "6k"
   }
 ]

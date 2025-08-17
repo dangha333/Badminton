@@ -5,7 +5,7 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #c93333 0%, #186ac9 50%, #15c9cf 100%);
+  background: linear-gradient(135deg, #1a1717 0%, #dbd4d4 50%, #242929 100%);
   background-attachment: fixed;
   margin: 0;
   padding: 24px;
@@ -29,13 +29,13 @@ h2 {
   text-align: center;
   font-size: 3.8rem;
   margin-bottom: 40px;
-  background: linear-gradient(45deg, #00f5ff, #00d4ff, #0099ff, #00f5ff, #764ba2);
+  background: linear-gradient(45deg, #ffffff, #00d4ff, #000000, #ffffff, #e911a8);
   background-size: 400% 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: gradientShift 4s ease-in-out infinite;
-  text-shadow: 0 0 40px rgba(0, 245, 255, 0.6);
+  text-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
   position: relative;
   font-weight: 800;
   letter-spacing: 2px;
@@ -80,7 +80,7 @@ h2::after {
 .filter-wrapper {
   text-align: center;
   margin-bottom: 50px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0);
   backdrop-filter: blur(25px);
   padding: 30px;
   border-radius: 25px;
@@ -163,7 +163,7 @@ h2::after {
 
 .qr-button {
   padding: 14px 28px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2a2a2b 0%, #111013 100%);
   color: #fff;
   border: none;
   border-radius: 15px;
@@ -403,14 +403,14 @@ h2::after {
 .card p.total {
   font-size: 1.3rem;
   font-weight: 800;
-  color: #ffff00;
+  color: #ffffff;
   margin-top: 20px;
   padding: 16px 20px;
   background: rgba(255, 255, 0, 0.15);
-  border: 3px solid rgba(255, 255, 0, 0.4);
+  border: 3px solid rgba(2, 2, 2, 0.4);
   border-radius: 15px;
   text-align: center;
-  text-shadow: 0 0 20px rgba(255, 255, 0, 0.8);
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
   animation: totalPulse 2.5s ease-in-out infinite;
   letter-spacing: 1px;
   text-transform: uppercase;
