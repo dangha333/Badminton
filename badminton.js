@@ -39,6 +39,12 @@ async function loadData() {
   try {
     const res = await fetch("data.json");
     const data = await res.json();
+    // cache raw data for other handlers
+    window._rawData = data;
+    // If computePlayerDays provided by index.html, use it to compute and cache
+    if (typeof window.computePlayerDays === 'function') {
+      try { window._playerStatsCache = window.computePlayerDays(data); } catch (e) { console.warn('computePlayerDays failed', e); }
+    }
 
     const summary = {};
     const dates = new Set();

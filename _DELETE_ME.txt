@@ -1,0 +1,1 @@
+Cleanup list: remove player-stats.html, summary-cards.html, ranking.html (they were temporary).

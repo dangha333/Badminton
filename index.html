@@ -17,115 +17,90 @@
   <h2>🏸 Tiền cầu lông tháng</h2>
 
 <style>
+  body, h1, h2, h3, h4, h5, h6, p, div, span, a, button, input, select, textarea, label, th, td {
+    font-family: 'Times New Roman', Times, serif !important;
+  }
   @media (max-width: 768px) {
     #playerChart {
       max-height: 1000px !important;
     }
   }
 </style>
-<section id="player-stats" style="background-color: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 30px;">
-  <h2 style="text-align: center; font-size: 1.5em;">Thống kê tổng số ngày</h2>
-  <canvas id="playerChart" style="width: 100%; max-height: 1000px; display: block; margin: 0 auto;"></canvas>
-  <span id="playerStatsMessage" style="display: block; text-align: center; margin-top: 20px; font-size: 1.2em; color: #333;"></span>
+<!-- Dashboard link (chart + summary + ranking) -->
+<section style="text-align:center;margin:30px 0;">
+  <a class="button" href="dashboard.html">📊 Mở Dashboard (Biểu đồ / Tóm tắt / Bảng xếp hạng)</a>
 </section>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  fetch('data.json')
-    .then(response => response.json())
-    .then(data => {
-      const playerDays = {};
+  // Shared helpers: compute playerDays and render chart
+  let chartInstance = null;
 
-      data.forEach((entry, index) => {
-        if (index === 0) return; // Skip the first day
-
-        const previousEntry = data[index - 1];
-
-        Object.keys(entry.players).forEach(player => {
-          const currentPrice = parseFloat(entry.players[player].replace(/[^0-9.]/g, '')) || 0;
-          const previousPrice = parseFloat(previousEntry.players[player]?.replace(/[^0-9.]/g, '')) || 0;
-
-          if (currentPrice !== previousPrice) {
-            playerDays[player] = (playerDays[player] || 0) + 1;
-          }
-        });
+  function computePlayerDays(data) {
+    const playerDays = {};
+    data.forEach((entry, index) => {
+      if (index === 0) return; // keep original behavior: skip first day
+      const previousEntry = data[index - 1] || { players: {} };
+      Object.keys(entry.players || {}).forEach(player => {
+        const cur = parseFloat(String(entry.players[player] || '0').replace(/[^0-9.]/g, '')) || 0;
+        const prev = parseFloat(String(previousEntry.players?.[player] || '0').replace(/[^0-9.]/g, '')) || 0;
+        if (cur !== prev) playerDays[player] = (playerDays[player] || 0) + 1;
       });
+    });
+    return Object.entries(playerDays).sort((a, b) => b[1] - a[1]);
+  }
 
-      const sortedPlayers = Object.entries(playerDays).sort((a, b) => b[1] - a[1]);
-      const players = sortedPlayers.map(entry => entry[0]);
-      const days = sortedPlayers.map(entry => entry[1]);
-
-      const ctx = document.getElementById('playerChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: players,
-          datasets: [{
-            label: 'Tổng số ngày',
-            data: days,
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(199, 199, 199, 0.2)',
-              'rgba(255, 99, 71, 0.2)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)',
-              'rgba(199, 199, 199, 1)',
-              'rgba(255, 99, 71, 1)'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true,
-          animation: {
-            duration: 1000,
-            easing: 'easeOutBounce'
-          },
-          scales: {
-            x: {
-              ticks: {
-                font: {
-                  size: 10
-                }
-              }
-            },
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      });
-
-      const mostActivePlayer = sortedPlayers[0][0];
-      const leastActivePlayer = sortedPlayers[sortedPlayers.length - 1][0];
-      const mostActiveDays = sortedPlayers[0][1];
-      const leastActiveDays = sortedPlayers[sortedPlayers.length - 1][1];
-
-      // Find players with the same number of days as the most and least active
-      const equallyActivePlayers = sortedPlayers.filter(player => player[1] === mostActiveDays).map(player => player[0]);
-      const equallyInactivePlayers = sortedPlayers.filter(player => player[1] === leastActiveDays).map(player => player[0]);
-
-      document.getElementById('playerStatsMessage').innerHTML = `
-        Người chơi nhiều nhất: <strong>${equallyActivePlayers.join(', ')}</strong> (${mostActiveDays} ngày) - Chăm thể thao rất tốt!<br>
-        Người chơi ít nhất: <strong>${equallyInactivePlayers.join(', ')}</strong> (${leastActiveDays} ngày) - Lười thể thao, đập quả lọ nhiều.
-      `;
-      document.getElementById('playerStatsMessage').style.fontSize = '0.9em'; // Reduce font size
-      document.getElementById('playerStatsMessage').style.textAlign = 'left'; // Align text to the left
-    })
-    .catch(error => console.error('Error loading data:', error));
+  function renderChart(sortedPlayers) {
+    const players = sortedPlayers.map(e => e[0]);
+    const days = sortedPlayers.map(e => e[1]);
+    const ctx = document.getElementById('playerChart')?.getContext('2d');
+    if (!ctx) return;
+    if (chartInstance) chartInstance.destroy();
+    chartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: players,
+        datasets: [{
+          label: 'Tổng số ngày',
+          data: days,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(199, 199, 199, 0.2)',
+            'rgba(255, 99, 71, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(199, 199, 199, 1)',
+            'rgba(255, 99, 71, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        animation: { duration: 1000, easing: 'easeOutBounce' },
+        scales: { x: { ticks: { font: { size: 10 } } }, y: { beginAtZero: true } }
+      }
+    });
+  }
 </script>
 
+
+<!-- summary cards are now rendered in-page -->
+
+ 
+ 
+ 
 <div class="filter-wrapper">
   <label for="filter">Lọc theo ngày: </label>
   <select id="filter">
@@ -160,7 +135,7 @@
 <!-- Nhạc nền -->
 
 
-  </div>
+
 
   <div class="qr-popup-overlay" id="accountPopup">
     <div class="qr-popup-content">
@@ -214,42 +189,193 @@
   </div>
 </div>
 
+<!-- ranking list is now rendered in-page -->
+
 <script src="badminton.js">
   
  </script>
  <script>
-  document.getElementById('showStatsBtn').addEventListener('click', () => {
+  const showStatsBtn = document.getElementById('showStatsBtn');
+if (showStatsBtn) {
+  showStatsBtn.addEventListener('click', () => {
     const statsPopup = document.getElementById('statsPopup');
     statsPopup.style.display = 'flex';
 
     const statsTableBody = document.querySelector('#statsTable tbody');
     statsTableBody.innerHTML = ''; // Clear previous rows
+      // Reuse computePlayerDays if available to avoid duplicate logic
+      (async () => {
+        try {
+          let sorted = window._playerStatsCache;
+          if (!sorted) {
+            const resp = await fetch('data.json');
+            const data = await resp.json();
+            sorted = computePlayerDays ? computePlayerDays(data) : Object.entries((() => {
+              const pc = {};
+              data.forEach(entry => Object.keys(entry.players || {}).forEach(p => pc[p] = (pc[p] || 0) + 1));
+              return pc;
+            })()).sort((a, b) => b[1] - a[1]);
+            window._playerStatsCache = sorted;
+          }
 
-    fetch('data.json')
-      .then(response => response.json())
-      .then(data => {
-        const playerCounts = {};
-
-        data.forEach(entry => {
-          Object.keys(entry.players).forEach(player => {
-            playerCounts[player] = (playerCounts[player] || 0) + 1;
+          sorted.forEach(([player, days]) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${player}</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${days}</td>
+            `;
+            statsTableBody.appendChild(row);
           });
-        });
+        } catch (e) {
+          console.error('Failed to load stats for popup', e);
+          statsTableBody.innerHTML = '<tr><td colspan="2" style="text-align:center;color:#c00;padding:12px;">Lỗi tải dữ liệu</td></tr>';
+        }
+      })();
+  });
+} 
 
-        Object.entries(playerCounts).forEach(([player, days]) => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td style="border-bottom: 1px solid #ddd; padding: 8px;">${player}</td>
-            <td style="border-bottom: 1px solid #ddd; padding: 8px;">${days}</td>
+// Keep closeStatsBtn binding safe
+const closeStatsBtn = document.getElementById('closeStatsBtn');
+if (closeStatsBtn) {
+  closeStatsBtn.addEventListener('click', () => {
+    const el = document.getElementById('statsPopup');
+    if (el) el.style.display = 'none';
+  });
+}
+
+  
+
+// Populate ranking table safely after DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  const rankingTableBody = document.querySelector('.ranking-table tbody');
+  const rankingList = document.getElementById('ranking-list');
+  if (!rankingTableBody && !rankingList) return;
+
+  fetch('data.json')
+    .then(resp => resp.json())
+    .then(data => {
+  console.log('Loaded data.json, entries:', data.length);
+  const sortedPlayers = computePlayerDays(data);
+  console.log('Computed playerDays:', sortedPlayers);
+
+      // Populate summary cards (most active / needs improvement)
+      try {
+        const mostCard = document.getElementById('mostActiveCard');
+        const leastCard = document.getElementById('leastActiveCard');
+        if (mostCard || leastCard) {
+          const maxDays = sortedPlayers.length ? sortedPlayers[0][1] : 0;
+          const minDays = sortedPlayers.length ? sortedPlayers[sortedPlayers.length - 1][1] : 0;
+          const mostNames = sortedPlayers.filter(p => p[1] === maxDays).map(p => p[0]).join(', ') || '-';
+          const leastNames = sortedPlayers.filter(p => p[1] === minDays).map(p => p[0]).join(', ') || '-';
+
+          if (mostCard) {
+            const nameEl = mostCard.querySelector('.summary-name');
+            const badgeEl = mostCard.querySelector('.summary-badge');
+            if (nameEl) nameEl.textContent = mostNames;
+            if (badgeEl) {
+              if (badgeEl.textContent !== `${maxDays} ngày`) {
+                badgeEl.textContent = `${maxDays} ngày`;
+                badgeEl.classList.add('updated');
+                setTimeout(() => badgeEl.classList.remove('updated'), 1000);
+              }
+            }
+          }
+
+          if (leastCard) {
+            const nameEl = leastCard.querySelector('.summary-name');
+            const badgeEl = leastCard.querySelector('.summary-badge');
+            if (nameEl) nameEl.textContent = leastNames;
+            if (badgeEl) {
+              if (badgeEl.textContent !== `${minDays} ngày`) {
+                badgeEl.textContent = `${minDays} ngày`;
+                badgeEl.classList.add('updated');
+                setTimeout(() => badgeEl.classList.remove('updated'), 1000);
+              }
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to populate summary cards', e);
+      }
+
+        // Update playerStatsMessage (most/least with ties)
+        try {
+          const playerStatsMessage = document.getElementById('playerStatsMessage');
+          if (playerStatsMessage) {
+            if (!sortedPlayers || sortedPlayers.length === 0) {
+              playerStatsMessage.textContent = 'Không có dữ liệu thống kê.';
+            } else {
+              const maxDays = sortedPlayers[0][1];
+              const minDays = sortedPlayers[sortedPlayers.length - 1][1];
+              const mostNames = sortedPlayers.filter(p => p[1] === maxDays).map(p => p[0]).join(', ');
+              const leastNames = sortedPlayers.filter(p => p[1] === minDays).map(p => p[0]).join(', ');
+              playerStatsMessage.innerHTML = `Người chơi nhiều nhất: <strong>${mostNames}</strong> (${maxDays} ngày) - Chăm thể thao rất tốt!<br>Người chơi ít nhất: <strong>${leastNames}</strong> (${minDays} ngày) - Cần cố gắng hơn.`;
+              playerStatsMessage.style.fontSize = '0.9em';
+              playerStatsMessage.style.textAlign = 'left';
+            }
+          }
+        } catch (e) {
+          console.warn('Failed to update playerStatsMessage', e);
+        }
+
+      // Fallback table rendering (if table still exists)
+      if (rankingTableBody) {
+        rankingTableBody.innerHTML = '';
+        if (sortedPlayers.length === 0) {
+          rankingTableBody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#666;padding:20px;">Không có dữ liệu</td></tr>';
+        } else {
+          sortedPlayers.forEach(([player, days], idx) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${idx + 1}</td>
+              <td>${player}</td>
+              <td>${days}</td>
+            `;
+            rankingTableBody.appendChild(tr);
+          });
+        }
+      }
+
+      // New card/list rendering
+      if (rankingList) {
+        rankingList.innerHTML = '';
+        const maxDays = sortedPlayers.length ? sortedPlayers[0][1] : 1;
+
+        sortedPlayers.forEach(([player, days], idx) => {
+          const percent = Math.round((days / maxDays) * 100);
+          const item = document.createElement('div');
+          item.className = 'ranking-item';
+          item.innerHTML = `
+            <div class="rank-left">
+              <div class="rank-badge">${idx + 1}</div>
+              <div class="player-meta">
+                <div class="player-name">${player}</div>
+                <div class="player-sub">Hạng #${idx + 1}</div>
+              </div>
+            </div>
+            <div class="rank-right">
+              <div class="days">${days}</div>
+              <div class="days-label">ngày chơi</div>
+              <div class="progress"><div class="progress-bar" style="width: ${percent}%"></div></div>
+            </div>
           `;
-          statsTableBody.appendChild(row);
+          rankingList.appendChild(item);
         });
-      });
-  });
 
-  document.getElementById('closeStatsBtn').addEventListener('click', () => {
-    document.getElementById('statsPopup').style.display = 'none';
-  });
+        if (sortedPlayers.length === 0) {
+          rankingList.innerHTML = '<div style="text-align:center;color:#666;padding:20px;">Không có dữ liệu</div>';
+        }
+      }
+
+  // Render chart from same data
+  try { renderChart(sortedPlayers); } catch (e) { console.warn('Failed to render chart', e); }
+    })
+    .catch(err => {
+      console.error('Error loading ranking data:', err);
+      if (rankingTableBody) rankingTableBody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#c00;padding:20px;">Lỗi tải dữ liệu</td></tr>';
+      if (rankingList) rankingList.innerHTML = '<div style="text-align:center;color:#c00;padding:20px;">Lỗi tải dữ liệu</div>';
+    });
+});
 </script>
 
 </body>
