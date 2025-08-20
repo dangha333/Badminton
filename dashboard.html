@@ -8,58 +8,375 @@
 </head>
 <body>
 <style>
+
   body, h1, h2, h3, h4, h5, h6, p, div, span, a, button, input, select, textarea, label, th, td {
     font-family: 'Times New Roman', Times, serif !important;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #2d3748;
+    font-weight: 600;
+  }
+h2 {
+  text-align: center;
+  font-size: 3.8rem;
+  margin-bottom: 40px;
+  background: linear-gradient(45deg, #ffffff, #00d4ff, #000000, #ffffff, #e911a8);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 4s ease-in-out infinite;
+  text-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+  position: relative;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+  h3 {
+    color: #2d3748;
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  h3::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+  }
+  
+  .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #11111118 0%, #fdfdfd59 100%);
+            color: white;
+            text-decoration: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(49, 50, 51, 0.3);
+            border: none;
+            cursor: pointer;
+            min-width: 280px;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(38, 39, 41, 0.144);
+            background: linear-gradient(135deg, #2f2f316e 0%, #b8b8b8 100%);
+        }
+
+        .button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+  
+
+  
+  #player-stats, #ranking-section {
+    background: #ffffff34;
+    /* backdrop-filter: blur(10px); */
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    margin-bottom: 30px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #f0f0f0;
+    will-change: opacity, transform;
+    transition: box-shadow 0.18s;
+  }
+  
+  #playerChart {
+    width: 100%;
+    max-width: 900px;
+    height: 320px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .summary-cards {
+    max-width: 1100px;
+    margin: 0 auto 30px;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .summary-card {
+    flex: 1;
+    background: #fff;
+    /* backdrop-filter: blur(10px); */
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: box-shadow 0.18s;
+    border: 1px solid #f0f0f0;
+    position: relative;
+    overflow: hidden;
+    will-change: opacity, transform;
+  }
+  
+  .summary-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+  }
+  
+  .summary-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+  }
+  
+  .summary-active::before {
+    background: linear-gradient(90deg, #48bb78, #38a169);
+  }
+  
+  .summary-inactive::before {
+    background: linear-gradient(90deg, #f56565, #e53e3e);
+  }
+  
+  .summary-title {
+    font-size: 0.9em;
+    color: #718096;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  
+  .summary-name {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 4px;
+  }
+  
+  .summary-sub {
+    font-size: 0.85em;
+    color: #a0aec0;
+  }
+  
+  .summary-badge {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 1.1em;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+  
+  .summary-active .summary-badge {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+  }
+  
+  .summary-inactive .summary-badge {
+    background: linear-gradient(135deg, #f56565, #e53e3e);
+    box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
+  }
+  
+  .ranking-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .ranking-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #f7fafc;
+    border-radius: 15px;
+    transition: box-shadow 0.18s;
+    border-left: 4px solid transparent;
+    will-change: opacity, transform;
+  }
+  
+  .ranking-item:hover {
+    background: #edf2f7;
+    transform: translateX(2px);
+    border-left-color: #667eea;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.10);
+  }
+  
+  .ranking-item:nth-child(1) { border-left-color: #ffd700; }
+  .ranking-item:nth-child(2) { border-left-color: #c0c0c0; }
+  .ranking-item:nth-child(3) { border-left-color: #cd7f32; }
+  
+  .rank-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .rank-badge {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2em;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+  
+  .ranking-item:nth-child(1) .rank-badge {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    color: #2d3748;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+  }
+  
+  .ranking-item:nth-child(2) .rank-badge {
+    background: linear-gradient(135deg, #c0c0c0, #e2e8f0);
+    color: #2d3748;
+    box-shadow: 0 4px 15px rgba(192, 192, 192, 0.4);
+  }
+  
+  .ranking-item:nth-child(3) .rank-badge {
+    background: linear-gradient(135deg, #cd7f32, #d69e2e);
+    color: white;
+    box-shadow: 0 4px 15px rgba(205, 127, 50, 0.4);
+  }
+  
+  .player-name {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 2px;
+  }
+  
+  .player-sub {
+    font-size: 0.9em;
+    color: #718096;
+  }
+  
+  .rank-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  
+  .days {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: #667eea;
+  }
+  
+  .days-label {
+    font-size: 0.85em;
+    color: #718096;
+    margin-bottom: 5px;
+  }
+  
+  .progress {
+    width: 120px;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 10px;
+    transition: width 0.8s ease;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  }
+
   @media (max-width: 900px) {
     #player-stats, #ranking-section, .summary-cards {
       max-width: 100vw;
-      margin-left: 0;
-      margin-right: 0;
-      border-radius: 0;
-      padding-left: 6px;
-      padding-right: 6px;
+      margin-left: 10px;
+      margin-right: 10px;
+      padding: 20px;
     }
     #playerChart {
-      max-width: 100vw;
       height: 220px !important;
     }
     .summary-cards {
-      gap: 10px;
+      gap: 15px;
     }
   }
+  
   @media (max-width: 600px) {
-    h2, h3 { font-size: 1.1em !important; }
+    body { padding: 10px 0; }
+    h2 { font-size: 1.8em; }
+    h3 { font-size: 1.2em; }
+    
     .summary-cards {
       flex-direction: column;
-      gap: 12px;
+      gap: 15px;
     }
-    .summary-card { min-width: 0; }
+    
+    .summary-card { 
+      min-width: 0;
+      padding: 20px;
+    }
+    
     #playerChart {
-      height: 160px !important;
+      height: 180px !important;
     }
-    #ranking-list .ranking-item {
+    
+    .ranking-item {
       flex-direction: column;
       align-items: flex-start;
-      padding: 10px 8px;
+      padding: 15px;
+      gap: 15px;
     }
-    .rank-right { margin-top: 8px; }
-    .rank-badge { width: 32px; height: 32px; font-size: 1.1em; }
-    .player-meta .player-name { font-size: 1em; }
-    .progress { width: 100px; }
+    
+    .rank-right { 
+      align-self: stretch;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .rank-badge { 
+      width: 35px; 
+      height: 35px; 
+      font-size: 1em; 
+    }
+    
+    .player-name { font-size: 1.1em; }
+    .progress { width: 80px; }
   }
 </style>
   <h2>Bảng thống kê</h2>
  <div style="text-align:center;margin:20px;">
     <a class="button" href="index.html">← Quay về trang chính</a>
   </div>
-  <section id="player-stats" style="background-color: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.08); margin-bottom: 24px; max-width:1100px; margin-left:auto; margin-right:auto;">
+  <section id="player-stats">
     <h3 style="text-align:center;">Thống kê tổng số ngày</h3>
   <canvas id="playerChart" style="width:100%;max-width:900px;height:320px;display:block;margin:0 auto;"></canvas>
     <div id="playerStatsMessage" style="margin-top:12px;color:#333;text-align:left;"></div>
   </section>
 
-  <section class="summary-cards" aria-label="Tóm tắt người chơi" style="max-width:1100px;margin:0 auto 20px;display:flex;gap:18px;">
+  <section class="summary-cards" aria-label="Tóm tắt người chơi">
     <div id="mostActiveCard" class="summary-card summary-active">
       <div class="summary-left">
         <div class="summary-title">Người chơi tích cực nhất</div>
@@ -83,7 +400,7 @@
     </div>
   </section>
 
-  <section id="ranking-section" style="background-color: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.08); margin-bottom: 30px; max-width:1100px; margin-left:auto; margin-right:auto;">
+  <section id="ranking-section">
     <h3 style="text-align:center;">Bảng xếp hạng chi tiết</h3>
     <div id="ranking-list" class="ranking-list"></div>
   </section>
