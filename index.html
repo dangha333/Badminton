@@ -15,25 +15,132 @@
 </head>
 <body>
   <h2>🏸 Tiền cầu lông tháng</h2>
-  <div class="filter-wrapper">
-    <label for="filter">Lọc theo ngày: </label>
-    <select id="filter">
-      <option value="all">Tất cả</option>
-    </select>
 
-    <div class="qr-section">
-      <button class="qr-button" id="showQrBtn">📷 Mã QR</button>
-      <button class="qr-button" id="showAccountBtn">💳 Số tài khoản</button>
-     
-      <button class="qr-button" onclick="window.location.hrf='momo://?action=transfer&receiver=0123456789&amount=100000&comment=Tien%20cau%20long'" >
-  <img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" alt="MoMo" style="height: 20px;">
-  Chuyển tiền qua MoMo
-</button>
-<button class="qr-button" onclick=" window.location.href = 'https://dl.vietqr.io/pay?app=mb'" >
-  <img src="https://is2-ssl.mzstatic.com/image/thumb/Purple122/v4/f4/0a/b6/f40ab6a2-e67d-e267-9c46-ae03dfa238a9/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/1200x630wa.png" alt="MBBank" style="height: 20px;">
-  Chuyển tiền qua MBBank
-</button>
-    </div>
+<style>
+  @media (max-width: 768px) {
+    #playerChart {
+      max-height: 1000px !important;
+    }
+  }
+</style>
+<section id="player-stats" style="background-color: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 30px;">
+  <h2 style="text-align: center; font-size: 1.5em;">Thống kê tổng số ngày</h2>
+  <canvas id="playerChart" style="width: 100%; max-height: 1000px; display: block; margin: 0 auto;"></canvas>
+  <span id="playerStatsMessage" style="display: block; text-align: center; margin-top: 20px; font-size: 1.2em; color: #333;"></span>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  fetch('data.json')
+    .then(response => response.json())
+    .then(data => {
+      const playerDays = {};
+
+      data.forEach((entry, index) => {
+        if (index === 0) return; // Skip the first day
+
+        const previousEntry = data[index - 1];
+
+        Object.keys(entry.players).forEach(player => {
+          const currentPrice = parseFloat(entry.players[player].replace(/[^0-9.]/g, '')) || 0;
+          const previousPrice = parseFloat(previousEntry.players[player]?.replace(/[^0-9.]/g, '')) || 0;
+
+          if (currentPrice !== previousPrice) {
+            playerDays[player] = (playerDays[player] || 0) + 1;
+          }
+        });
+      });
+
+      const sortedPlayers = Object.entries(playerDays).sort((a, b) => b[1] - a[1]);
+      const players = sortedPlayers.map(entry => entry[0]);
+      const days = sortedPlayers.map(entry => entry[1]);
+
+      const ctx = document.getElementById('playerChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: players,
+          datasets: [{
+            label: 'Tổng số ngày',
+            data: days,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(199, 199, 199, 0.2)',
+              'rgba(255, 99, 71, 0.2)'
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
+              'rgba(199, 199, 199, 1)',
+              'rgba(255, 99, 71, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          animation: {
+            duration: 1000,
+            easing: 'easeOutBounce'
+          },
+          scales: {
+            x: {
+              ticks: {
+                font: {
+                  size: 10
+                }
+              }
+            },
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+      const mostActivePlayer = sortedPlayers[0][0];
+      const leastActivePlayer = sortedPlayers[sortedPlayers.length - 1][0];
+      const mostActiveDays = sortedPlayers[0][1];
+      const leastActiveDays = sortedPlayers[sortedPlayers.length - 1][1];
+
+      // Find players with the same number of days as the most and least active
+      const equallyActivePlayers = sortedPlayers.filter(player => player[1] === mostActiveDays).map(player => player[0]);
+      const equallyInactivePlayers = sortedPlayers.filter(player => player[1] === leastActiveDays).map(player => player[0]);
+
+      document.getElementById('playerStatsMessage').innerHTML = `
+        Người chơi nhiều nhất: <strong>${equallyActivePlayers.join(', ')}</strong> (${mostActiveDays} ngày) - Chăm thể thao rất tốt!<br>
+        Người chơi ít nhất: <strong>${equallyInactivePlayers.join(', ')}</strong> (${leastActiveDays} ngày) - Lười thể thao, đập quả lọ nhiều.
+      `;
+      document.getElementById('playerStatsMessage').style.fontSize = '0.9em'; // Reduce font size
+      document.getElementById('playerStatsMessage').style.textAlign = 'left'; // Align text to the left
+    })
+    .catch(error => console.error('Error loading data:', error));
+</script>
+
+<div class="filter-wrapper">
+  <label for="filter">Lọc theo ngày: </label>
+  <select id="filter">
+    <option value="all">Tất cả</option>
+  </select>
+
+  <div class="qr-section">
+    <button class="qr-button" id="showQrBtn">📷 Mã QR</button>
+    <button class="qr-button" id="showAccountBtn">💳 Số tài khoản</button>
+    <button class="qr-button" onclick=" window.location.href = 'https://dl.vietqr.io/pay?app=mb'" >
+      <img src="https://is2-ssl.mzstatic.com/image/thumb/Purple122/v4/f4/0a/b6/f40ab6a2-e67d-e267-9c46-ae03dfa238a9/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/1200x630wa.png" alt="MBBank" style="height: 20px;">
+      Chuyển tiền qua MBBank
+    </button>
+  </div>
+</div>
 <!-- Nút chuyển tiền qua MoMo với logo -->
 
 
@@ -89,9 +196,61 @@
     </div>
   </div>
 
- <script src="badminton.js">
+  <div class="qr-popup-overlay" id="statsPopup">
+  <div class="qr-popup-content">
+    <button class="qr-close-btn" id="closeStatsBtn">✖</button>
+    <h3>Thống kê số ngày chơi</h3>
+    <table id="statsTable" style="width: 100%; border-collapse: collapse; text-align: left;">
+      <thead>
+        <tr>
+          <th style="border-bottom: 2px solid #ddd; padding: 8px;">Tên</th>
+          <th style="border-bottom: 2px solid #ddd; padding: 8px;">Số ngày chơi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows will be dynamically generated -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="badminton.js">
   
  </script>
+ <script>
+  document.getElementById('showStatsBtn').addEventListener('click', () => {
+    const statsPopup = document.getElementById('statsPopup');
+    statsPopup.style.display = 'flex';
+
+    const statsTableBody = document.querySelector('#statsTable tbody');
+    statsTableBody.innerHTML = ''; // Clear previous rows
+
+    fetch('data.json')
+      .then(response => response.json())
+      .then(data => {
+        const playerCounts = {};
+
+        data.forEach(entry => {
+          Object.keys(entry.players).forEach(player => {
+            playerCounts[player] = (playerCounts[player] || 0) + 1;
+          });
+        });
+
+        Object.entries(playerCounts).forEach(([player, days]) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td style="border-bottom: 1px solid #ddd; padding: 8px;">${player}</td>
+            <td style="border-bottom: 1px solid #ddd; padding: 8px;">${days}</td>
+          `;
+          statsTableBody.appendChild(row);
+        });
+      });
+  });
+
+  document.getElementById('closeStatsBtn').addEventListener('click', () => {
+    document.getElementById('statsPopup').style.display = 'none';
+  });
+</script>
 
 </body>
 </html>

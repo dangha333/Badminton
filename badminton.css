@@ -1097,3 +1097,78 @@ h2::after {
 @keyframes historyLoadingSpin {
   to { transform: rotate(360deg); }
 }
+
+/* Statistics Popup Styles */
+#statsPopup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(15px);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#statsPopup .qr-popup-content {
+  background: linear-gradient(135deg, #ffffff, #f8f9fa, #ffffff);
+  padding: 40px;
+  border-radius: 25px;
+  max-width: 600px;
+  color: #333;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  border: 3px solid rgba(0, 245, 255, 0.3);
+  overflow: hidden;
+}
+
+#statsPopup table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#statsPopup th, #statsPopup td {
+  padding: 10px;
+  text-align: left;
+}
+
+#statsPopup th {
+  background: rgba(0, 245, 255, 0.1);
+  color: #333;
+  font-weight: bold;
+}
+
+#statsPopup td {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+#statsPopup .qr-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 3;
+}
+
+#statsPopup .qr-close-btn:hover {
+  background: #ff4757;
+  color: white;
+  transform: scale(1.15) rotate(90deg);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
