@@ -374,6 +374,16 @@ h2 {
     <h3 style="text-align:center;">Thống kê tổng số ngày</h3>
   <canvas id="playerChart" style="width:100%;max-width:900px;height:320px;display:block;margin:0 auto;"></canvas>
     <div id="playerStatsMessage" style="margin-top:12px;color:#333;text-align:left;"></div>
+    <div style="display:flex;flex-wrap:wrap;gap:30px;justify-content:center;margin-top:30px;">
+      <div style="flex:1;min-width:320px;max-width:420px;">
+        <h3 style="text-align:center;">Tỷ lệ phần trăm số ngày tham gia</h3>
+        <canvas id="pieChart" style="width:100%;max-width:400px;height:320px;"></canvas>
+      </div>
+      <div style="flex:2;min-width:320px;max-width:600px;">
+        <h3 style="text-align:center;">Xu hướng số người chơi theo thời gian</h3>
+        <canvas id="lineChart" style="width:100%;max-width:600px;height:320px;"></canvas>
+      </div>
+    </div>
   </section>
 
   <section class="summary-cards" aria-label="Tóm tắt người chơi">
@@ -443,7 +453,7 @@ h2 {
       'rgba(75, 192, 192, 0.7)',
       'rgba(153, 102, 255, 0.7)',
       'rgba(255, 159, 64, 0.7)',
-      'rgba(199, 199, 199, 0.7)',
+  'rgba(0, 204, 153, 0.7)',
       'rgba(255, 99, 71, 0.7)'
     ];
     const barColors = labels.map((_, i) => colors[i % colors.length]);
@@ -463,11 +473,114 @@ h2 {
     });
   }
 
+  // Pie chart: tỷ lệ phần trăm số ngày tham gia
+  let pieInstance = null;
+  function renderPieChart(sortedPlayers) {
+    const labels = sortedPlayers.map(e => e[0]);
+    const data = sortedPlayers.map(e => e[1]);
+    const ctx = document.getElementById('pieChart')?.getContext('2d');
+    if (!ctx) return;
+    if (pieInstance) pieInstance.destroy();
+    const colors = [
+      'rgba(255, 99, 132, 0.7)',
+      'rgba(54, 162, 235, 0.7)',
+      'rgba(255, 206, 86, 0.7)',
+      'rgba(75, 192, 192, 0.7)',
+      'rgba(153, 102, 255, 0.7)',
+      'rgba(255, 159, 64, 0.7)',
+      'rgba(0, 204, 153, 0.7)',
+      'rgba(255, 99, 71, 0.7)'
+    ];
+    pieInstance = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels,
+        datasets: [{
+          data,
+          backgroundColor: labels.map((_, i) => colors[i % colors.length]),
+          borderColor: '#fff',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const total = data.reduce((a, b) => a + b, 0);
+                const value = context.parsed;
+                const percent = total ? (value / total * 100).toFixed(1) : 0;
+                return `${context.label}: ${value} ngày (${percent}%)`;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Line chart: xu hướng số người check theo thời gian
+  let lineInstance = null;
+  function renderLineChart(data) {
+    const ctx = document.getElementById('lineChart')?.getContext('2d');
+    if (!ctx) return;
+    if (lineInstance) lineInstance.destroy();
+    // Lấy danh sách ngày và số người có giá thay đổi hoặc mới xuất hiện
+    const labels = data.map(e => e.date);
+    const counts = data.map((entry, idx) => {
+      if (idx === 0) return Object.keys(entry.players || {}).length;
+      const prev = data[idx - 1] || { players: {} };
+      const allPlayers = new Set([
+        ...Object.keys(entry.players || {}),
+        ...Object.keys(prev.players || {})
+      ]);
+      let changed = 0;
+      allPlayers.forEach(player => {
+        const cur = parseFloat(String(entry.players?.[player] || '0').replace(/[^0-9.]/g, '')) || 0;
+        const prv = parseFloat(String(prev.players?.[player] || '0').replace(/[^0-9.]/g, '')) || 0;
+        if (!(player in prev.players) || cur !== prv) changed++;
+      });
+      return changed;
+    });
+    lineInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Số người chơi',
+          data: counts,
+          fill: false,
+          borderColor: 'rgba(54, 162, 235, 1)',
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: 'rgba(255,99,132,1)'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: { beginAtZero: true, stepSize: 1 }
+        }
+      }
+    });
+  }
+
   // load and render everything
   fetch('data.json').then(r=>r.json()).then(data=>{
     const sorted = computePlayerDays(data);
-    // chart
+    // Bar chart
     renderChart(sorted);
+    // Pie chart
+    renderPieChart(sorted);
+    // Line chart
+    renderLineChart(data);
+
     // summary cards
     const max = sorted.length?sorted[0][1]:0; const min = sorted.length?sorted[sorted.length-1][1]:0;
     const most = sorted.filter(p=>p[1]===max).map(p=>p[0]).join(', ')||'-';
