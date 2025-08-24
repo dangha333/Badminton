@@ -138,5 +138,68 @@
     "player": "Duy Mạnh",
     "oldValue": "20k",
     "newValue": "6k"
+  },
+  {
+    "date": "24/08",
+    "timestamp": "2025-08-24T03:56:24.532Z",
+    "player": "Duy Mạnh",
+    "oldValue": "6k",
+    "newValue": "-2k"
+  },
+  {
+    "date": "24/08",
+    "timestamp": "2025-08-24T03:56:25.906Z",
+    "player": "Duy Mạnh",
+    "oldValue": "-2k",
+    "newValue": "-2,8k"
+  },
+  {
+    "date": "24/08",
+    "timestamp": "2025-08-24T03:56:31.088Z",
+    "player": "Mạnh Đức",
+    "oldValue": "7,7k",
+    "newValue": "0k"
+  },
+  {
+    "date": "24/08",
+    "timestamp": "2025-08-24T03:56:39.449Z",
+    "player": "Minh Đức",
+    "oldValue": "23,7k",
+    "newValue": "7,2k"
+  },
+  {
+    "date": "24/08",
+    "timestamp": "2025-08-24T03:56:44.468Z",
+    "player": "Tuấn Hưng",
+    "oldValue": "10,7k",
+    "newValue": "0k"
+  },
+  {
+    "date": "24/08",
+    "timestamp": "2025-08-24T03:56:48.941Z",
+    "player": "Minh Quang",
+    "oldValue": "6k",
+    "newValue": "7,2k"
+  },
+  {
+    "date": "24/08",
+    "timestamp": "2025-08-24T03:56:53.132Z",
+    "player": "Thế Anh",
+    "oldValue": "6,7k",
+    "newValue": "0k"
+  },
+  {
+    "date": "24/08",
+    "timestamp": "2025-08-24T03:56:57.406Z",
+    "player": "Mạnh Thắng",
+    "oldValue": "6k",
+    "newValue": "7,2k"
+  },
+  {
+    "date": "24/08",
+    "timestamp": "2025-08-24T03:57:01.503Z",
+    "player": "Đàm Thịnh",
+    "oldValue": "6k",
+    "newValue": "0k"
   }
 ]
